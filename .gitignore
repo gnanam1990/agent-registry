@@ -1,0 +1,20 @@
+# Foundry
+out/
+cache/
+broadcast/*/dry-run/
+docs/
+
+# secrets — NEVER commit (testnet keys count too — treat every key as real)
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+keystore/
+secrets/
+
+# os / editor
+.DS_Store
+.idea/
+.vscode/
+*.log

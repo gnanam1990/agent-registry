@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Show forge version
+        run: forge --version
+
+      - name: Check formatting
+        run: forge fmt --check
+
+      - name: Build
+        run: forge build --sizes
+
+      - name: Test
+        run: forge test -vvv
+
+  slither:
+    # Static analysis is a first-class gate — a finding is treated like a failing test.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Slither
+        uses: crytic/slither-action@v0.4.0
+        with:
+          fail-on: medium
+          slither-config: slither.config.json
