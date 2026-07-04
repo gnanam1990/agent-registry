@@ -1,9 +1,13 @@
 # Foundry
 out/
 cache/
-broadcast/*/dry-run/
+# Local deploy artifacts — the canonical record is deployments/arc-testnet.json.
+broadcast/
 # `forge doc` output only — hand-written docs/ (DEPLOY.md, etc.) are committed.
 docs/book/
+
+# node / dashboard deps
+node_modules/
 
 # secrets — NEVER commit (testnet keys count too — treat every key as real)
 .env
