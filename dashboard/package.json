@@ -1,0 +1,22 @@
+{
+  "name": "agent-registry-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Read-only dashboard for the agent-registry primitive on Arc testnet. Not affiliated with Circle/Arc.",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

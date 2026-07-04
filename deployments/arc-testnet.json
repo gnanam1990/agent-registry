@@ -14,6 +14,7 @@
     "note": "Native Arc USDC — transferFrom invokes a system precompile (0x1800…0001, blocklist), so the live smoke uses cast (script/smoke.sh), not `forge script` (its local EVM lacks that precompile)."
   },
   "deployedAt": "2026-07-04",
+  "deployBlock": 50103930,
   "deployer": "0x4f5316Bc860EB9f88068bfe2a61dc1dC026742Bc",
   "contracts": {
     "AgentRegistry": {
