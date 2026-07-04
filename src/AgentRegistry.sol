@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.24;
 
+import { IAgentRegistry } from "./IAgentRegistry.sol";
+
 /// @title AgentRegistry
 /// @notice A minimal, composable Know-Your-Agent registry for the Arc agent economy.
 /// An address registers itself as an agent with a pointer to off-chain metadata
@@ -9,7 +11,7 @@ pragma solidity 0.8.24;
 /// way to edit another agent's record.
 /// @dev Holds no funds and makes no external calls (no reentrancy surface). NEVER store
 /// PII on-chain: identity here is `address` + a metadata pointer, not personal data.
-contract AgentRegistry {
+contract AgentRegistry is IAgentRegistry {
     /// @notice An agent's on-chain record. `metadataURI` is a pointer to off-chain data.
     struct Agent {
         string metadataURI;
@@ -60,8 +62,8 @@ contract AgentRegistry {
         emit AgentUpdated(msg.sender, metadataURI, block.timestamp);
     }
 
-    /// @notice Whether `agent` is a registered agent.
-    function isRegistered(address agent) external view returns (bool) {
+    /// @inheritdoc IAgentRegistry
+    function isRegistered(address agent) external view override returns (bool) {
         return _agents[agent].exists;
     }
 
