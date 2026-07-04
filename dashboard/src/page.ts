@@ -151,7 +151,10 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
 @media (max-width: 440px) {
   .steps { flex-wrap: wrap; gap: 8px 0; }
   .conn { width: 22px; margin: 0 6px; }
-  .step .slbl { display: none; }
+  /* Hide the lifecycle labels visually but keep them in the accessibility tree —
+     the .node indicators are colour-only, so the text is the only label for AT. */
+  .step .slbl { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
 }
 
 /* =========================================================================
@@ -220,7 +223,7 @@ const el = (t, c, txt) => { const n = document.createElement(t); if (c) n.classN
 let EXPLORER = "https://testnet.arcscan.app";
 const link = (addr, cls) => { const a = el("a", cls || "addr", addr); a.href = EXPLORER + "/address/" + addr; a.target = "_blank"; a.rel = "noreferrer"; return a; };
 const timeAgo = (s) => { if (!s) return ""; const d = Date.now()/1000 - s; if (d < 90) return "just now"; if (d < 3600) return Math.floor(d/60)+"m ago"; if (d < 86400) return Math.floor(d/3600)+"h ago"; return Math.floor(d/86400)+"d ago"; };
-const fmtNum = (n) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(n);
+const fmtNum = (n) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 6 }).format(n);
 
 // Count-up that persists its last value on the node, so the 15s poll doesn't
 // re-animate unchanged metrics. Jumps straight to the target under reduced motion.
@@ -314,7 +317,7 @@ function render(m) {
     top.append(el("span", "escrow-id", "#" + e.id));
     const parties = el("span", "escrow-parties"); parties.append(link(e.payerShort), el("span", "tip", "→"), link(e.payeeShort));
     top.append(parties);
-    const amt = el("span", "escrow-amt"); amt.append(document.createTextNode(e.amount), el("span", "u", "USDC"));
+    const amt = el("span", "escrow-amt"); amt.append(document.createTextNode(fmtNum(Number(e.amount))), el("span", "u", "USDC"));
     top.append(amt);
     top.append(el("span", "badge " + e.status, e.status));
     box.append(top);
@@ -335,11 +338,23 @@ function render(m) {
 }
 
 async function boot() {
-  try { const res = await fetch("/api/state"); render(await res.json()); }
-  catch (e) {
+  // Load path — only a fetch/parse failure means the server is unreachable.
+  let state;
+  try {
+    const res = await fetch("/api/state");
+    state = await res.json();
+  } catch (e) {
     document.body.classList.remove("skel");
     $("live").dataset.state = "offline"; $("live-text").textContent = "offline";
     $("err").replaceChildren(el("div", "err", "Couldn't reach the dashboard server. Retrying…"));
+    return;
+  }
+  // Render path — a failure here is a display bug, not an outage; don't flip to offline.
+  try {
+    render(state);
+  } catch (e) {
+    document.body.classList.remove("skel");
+    $("err").replaceChildren(el("div", "err", "Something went wrong displaying the latest data."));
   }
 }
 boot();
