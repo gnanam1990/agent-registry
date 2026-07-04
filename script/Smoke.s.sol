@@ -14,6 +14,12 @@ import { Script, console2 } from "forge-std/Script.sol";
 /// Requires (in `.env`): the deployed addresses, USDC_ADDRESS, and TWO funded testnet keys —
 /// DEPLOYER_PRIVATE_KEY (agent A / payer, must hold >= SMOKE_AMOUNT test USDC) and
 /// AGENT_B_PRIVATE_KEY (agent B / payee, funded for gas). TESTNET ONLY.
+///
+/// NOTE: on Arc, run the LIVE smoke with `script/smoke.sh` (cast), not `forge script`. Arc's native
+/// USDC calls a system precompile (0x1800…0001, blocklist) inside transferFrom that forge's LOCAL
+/// simulation EVM doesn't implement, so `forge script` reverts (StackUnderflow) before broadcasting.
+/// `cast` sends against the real node (which has the precompile). This script stays valid for local
+/// anvil/mock runs where the escrow token is a plain ERC-20.
 contract Smoke is Script {
     function run() external {
         AgentRegistry registry = AgentRegistry(vm.envAddress("REGISTRY_ADDRESS"));
