@@ -11,6 +11,7 @@ env / config — **never hardcoded** in a contract. **Testnet only; no mainnet i
 | RPC URL | `https://rpc.testnet.arc.network` | <https://docs.arc.io/arc/references/connect-to-arc> | ✅ verified |
 | Chain ID | `5042002` | <https://docs.arc.io/arc/references/connect-to-arc> | ✅ verified |
 | Explorer | `https://testnet.arcscan.app` | <https://docs.arc.io/arc/references/connect-to-arc> | ✅ verified |
+| Explorer type / verifier | **Blockscout** — `forge verify-contract --verifier blockscout --verifier-url https://testnet.arcscan.app/api/` (API key optional) | Blockscout docs + confirmed explorer | ✅ verified (Stage 4) |
 | Faucet | `https://faucet.circle.com` | <https://docs.arc.io/arc/references/connect-to-arc> | ✅ verified |
 | USDC ERC-20 | `0x3600000000000000000000000000000000000000` | <https://docs.arc.io/arc/references/contract-addresses> | ✅ verified |
 | USDC decimals (ERC-20) | **6** | Arc contract-addresses page + arcpayments NETWORK.md | ✅ verified |
