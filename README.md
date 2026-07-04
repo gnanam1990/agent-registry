@@ -40,7 +40,7 @@ Enumeration is done off-chain from **event logs** — the contracts deliberately
 arrays on-chain (cheaper, no unbounded-loop DoS surface). The dashboard and the snippets below both
 read state that way.
 
-![agent-registry dashboard — live read-only view of agents, attestations, and escrows on Arc testnet](docs/dashboard.png)
+![agent-registry dashboard — live read-only view of agents, attestations, and escrows on Arc testnet](docs/dashboard-preview.png)
 
 ## Compose with it
 
