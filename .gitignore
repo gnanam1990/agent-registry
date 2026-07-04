@@ -2,7 +2,8 @@
 out/
 cache/
 broadcast/*/dry-run/
-docs/
+# `forge doc` output only — hand-written docs/ (DEPLOY.md, etc.) are committed.
+docs/book/
 
 # secrets — NEVER commit (testnet keys count too — treat every key as real)
 .env

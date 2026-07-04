@@ -1,0 +1,39 @@
+{
+  "network": "arc-testnet",
+  "chainId": 5042002,
+  "rpcUrl": "https://rpc.testnet.arc.network",
+  "explorer": "https://testnet.arcscan.app",
+  "verifier": {
+    "type": "blockscout",
+    "url": "https://testnet.arcscan.app/api/"
+  },
+  "usdc": {
+    "address": "0x3600000000000000000000000000000000000000",
+    "symbol": "USDC",
+    "decimals": 6,
+    "note": "Verified live on Arc testnet (code present, decimals()==6, symbol()==USDC)."
+  },
+  "deployedAt": null,
+  "deployer": null,
+  "contracts": {
+    "AgentRegistry": {
+      "address": null,
+      "txHash": null,
+      "abi": "deployments/abi/AgentRegistry.json",
+      "constructorArgs": []
+    },
+    "AgentAttestations": {
+      "address": null,
+      "txHash": null,
+      "abi": "deployments/abi/AgentAttestations.json",
+      "constructorArgs": ["<AgentRegistry.address>"]
+    },
+    "AgentEscrow": {
+      "address": null,
+      "txHash": null,
+      "abi": "deployments/abi/AgentEscrow.json",
+      "constructorArgs": ["<usdc.address>", "<AgentRegistry.address>"]
+    }
+  },
+  "status": "not-yet-deployed — addresses/txHashes filled after `forge script script/Deploy.s.sol --broadcast` (see docs/DEPLOY.md)"
+}
