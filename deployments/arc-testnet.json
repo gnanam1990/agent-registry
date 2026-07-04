@@ -11,29 +11,46 @@
     "address": "0x3600000000000000000000000000000000000000",
     "symbol": "USDC",
     "decimals": 6,
-    "note": "Verified live on Arc testnet (code present, decimals()==6, symbol()==USDC)."
+    "note": "Native Arc USDC — transferFrom invokes a system precompile (0x1800…0001, blocklist), so the live smoke uses cast (script/smoke.sh), not `forge script` (its local EVM lacks that precompile)."
   },
-  "deployedAt": null,
-  "deployer": null,
+  "deployedAt": "2026-07-04",
+  "deployer": "0x4f5316Bc860EB9f88068bfe2a61dc1dC026742Bc",
   "contracts": {
     "AgentRegistry": {
-      "address": null,
-      "txHash": null,
+      "address": "0x39A9453926398Eb0b3B9550DC8A659F2A965A4C6",
+      "txHash": "0x5fa6441fd864793a06d3125737fc83642a18d4eae08400ba79b34b384fa8e691",
       "abi": "deployments/abi/AgentRegistry.json",
       "constructorArgs": []
     },
     "AgentAttestations": {
-      "address": null,
-      "txHash": null,
+      "address": "0x78EB41F5340D3f97b2EC8caF5ED4A6963819Ef8d",
+      "txHash": "0x2d1cf6b9b0a08c88edb42ce9ed4bb2c4dbb7cdf264762ba3da8687bcc04cc8d5",
       "abi": "deployments/abi/AgentAttestations.json",
-      "constructorArgs": ["<AgentRegistry.address>"]
+      "constructorArgs": ["0x39A9453926398Eb0b3B9550DC8A659F2A965A4C6"]
     },
     "AgentEscrow": {
-      "address": null,
-      "txHash": null,
+      "address": "0xedE008a31f9B1722eC52E08d76b1F13Aa64E618C",
+      "txHash": "0xfb1ac19e0c3f53a67395cd2a12cfada11c079ab84ba59f25ea65c25afe11b7dc",
       "abi": "deployments/abi/AgentEscrow.json",
-      "constructorArgs": ["<usdc.address>", "<AgentRegistry.address>"]
+      "constructorArgs": [
+        "0x3600000000000000000000000000000000000000",
+        "0x39A9453926398Eb0b3B9550DC8A659F2A965A4C6"
+      ]
     }
   },
-  "status": "not-yet-deployed — addresses/txHashes filled after `forge script script/Deploy.s.sol --broadcast` (see docs/DEPLOY.md)"
+  "smoke": {
+    "note": "Live end-to-end smoke via script/smoke.sh — real Arc testnet tx hashes.",
+    "agentA_payer_attester": "0x4f5316Bc860EB9f88068bfe2a61dc1dC026742Bc",
+    "agentB_payee_subject": "0xB44AA52746B50Ba1F95C49561270Fa86EAB2C7b8",
+    "escrowId": 0,
+    "amount": "1000000",
+    "txs": {
+      "registerAgentA": "0xfd0252ca3042f3171d65455e74e17e544a09d9e0f0064611b41846c5560a4981",
+      "registerAgentB": "0xc042f370419adc6a6d4fd3c48998fcf3e58c201cf1a91db091c605f5a7a3b1e8",
+      "attestAtoB": "0x56863c8382fa31ae1c229024c85505616770f7a0801641e55bd38e1605146da1",
+      "approveEscrow": "0xdc70034964cdc2150c56e0424ed0a49b3e83d2c154cecc7713e9cc44bd28afc6",
+      "createEscrow": "0x54db14759eca370f7786eb37993f13040361e9a822a04cb988636c029c7a5476",
+      "release": "0x417072db2bb9bb65ec3dc535af729d029987c3dde2a7c119ce640b9cb45b1688"
+    }
+  }
 }
