@@ -60,16 +60,20 @@ are already checked in under `deployments/abi/`. Confirm each contract shows **V
 
 ## 3. Live smoke (register → attest → escrow deposit→release)
 
-With the addresses in `.env`:
+Run it with **`script/smoke.sh`** (cast) — NOT `forge script`:
 
 ```bash
-forge script script/Smoke.s.sol:Smoke \
-  --rpc-url https://rpc.testnet.arc.network --broadcast
+bash script/smoke.sh
 ```
 
 It registers agent A + B, has A attest about B, then A escrows `SMOKE_AMOUNT` USDC for B and releases
-it. Real tx hashes are in `broadcast/Smoke.s.sol/5042002/run-latest.json`; open each at
-`https://testnet.arcscan.app/tx/<hash>`.
+it, printing each real tx hash + explorer link.
+
+> Why not `forge script` here? Arc's native USDC calls a system precompile (`0x1800…0001`, blocklist)
+> inside `transferFrom`. `forge script` runs the whole flow in a **local** EVM first, which doesn't
+> implement that precompile → it reverts with `StackUnderflow` and never broadcasts. `cast` sends
+> straight to the real node (which has the precompile), so the escrow deposit works. `Smoke.s.sol`
+> stays valid for local/anvil/mock runs.
 
 ## Safety
 
